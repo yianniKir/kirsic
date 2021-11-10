@@ -1,7 +1,9 @@
+package old;
 import javazoom.jl.player.*;
 import java.io.FileInputStream;
 import java.lang.reflect.Array;
 import java.net.*;
+import javax.sound.sampled.*;
 import java.security.Provider.Service;
 import java.io.*;
 import java.util.*;
@@ -10,27 +12,41 @@ import java.util.concurrent.Executors;
 
 class Progress
 {
+    //OLD
+    /*
+    javac -cp /home/yianni/jl1.0.1.jar Progress.java
+    java -cp .:/home/yianni/jl1.0.1.jar Progress 
+    */
     public static void main(String[] args) throws Exception 
     {   
-       Thread thread1 = new Thread(){
+        Scanner scanner = new Scanner(System.in);
+       Thread thread1 = new Thread(){ 
            public void run(){
             try{
                 FileInputStream fis = new FileInputStream("/home/yianni/Music/dream_on.mp3");
                 Player playMP3 = new Player(fis);
-            
+
+                System.out.println("CONTROLS BLAH BLAH");
                 playMP3.play();
+
+                String controls = "";
+                
+                while(!controls.equals("q")){
+                    controls = scanner.next();
+                }
+                playMP3.close();
             
                 }catch(Exception e){System.out.println(e);}
            }
        };
         thread1.start();
-        Thread.sleep(500);
+        Thread.sleep(100);
         startTimer(4,28,"Dream On","Aerosmith");
         thread1.join();
     }
 
     public static void startTimer(int len_m, int len_s, String songName, String artist) throws Exception{
-        //startTimer(0,15,"Dream On","Aerosmith");
+        //startTdimer(0,15,"Dream On","Aerosmith");
         int charsWritten = 0;
         long start = System.currentTimeMillis();
         while (1 > 0) {
