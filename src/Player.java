@@ -18,15 +18,16 @@ public class Player{
         String controls = "";
         String state = "";
         clip.start();
-        
         boolean isPaused = false;
+
         while(!controls.equals("q")){
             String audioName = audio.toString();
             System.out.println(audioName.substring(audioName.lastIndexOf("/") + 1, audioName.lastIndexOf("."))+state);
             controls = scanner.next();
              
             switch(controls){
-                case "e":clip.stop();
+                case "e":
+                clip.stop();
                 i++;
                 clip.close();
                 audio = new File(listOfFiles[i].getPath());
@@ -45,11 +46,13 @@ public class Player{
                     isPaused = true;
                 }
                 break;
-                case "r":clip.stop();
+                case "r":
+                clip.stop();
                 clip.setFramePosition(0);
                 clip.start();
                 break;
-                case "q":clip.close();
+                case "q":
+                clip.close();
                 System.out.println("Closed");
                 break;
                 default:
