@@ -1,3 +1,5 @@
+package src;
+
 import javax.sound.sampled.*;
 import java.io.*;
 import java.io.IOException;
@@ -5,35 +7,40 @@ import java.util.*;
 
 public class Player{
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException{
-        int i = 0;
+        int currentAudio = 0;
         Scanner scanner = new Scanner(System.in);
         File folder = new File("/home/yianni/Music/");
         File[] listOfFiles = folder.listFiles();
-        File audio = new File(listOfFiles[i].getPath());
+        int numOfFiles = listOfFiles.length;
+        File audio = new File(listOfFiles[currentAudio].getPath());
 
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audio);
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
 
-        String controls = "";
+        
         String state = "";
         clip.start();
         boolean isPaused = false;
-
-        while(!controls.equals("q")){
+        String controls = "";
+        do{
+            System.out.println(clip.getMicrosecondLength());
             String audioName = audio.toString();
-            System.out.println(audioName.substring(audioName.lastIndexOf("/") + 1, audioName.lastIndexOf("."))+state);
+            String writeThis =  "" + clip.getMicrosecondLength(); 
+            System.out.println(audioName.substring(audioName.lastIndexOf("/") + 1, audioName.lastIndexOf("."))+state+" "+writeThis);
             controls = scanner.next();
-             
+        
             switch(controls){
                 case "e":
                 clip.stop();
-                i++;
+                currentAudio++;
                 clip.close();
-                audio = new File(listOfFiles[i].getPath());
-                audioStream = AudioSystem.getAudioInputStream(audio);
-                clip.open(audioStream);
-                clip.start();
+                if(currentAudio <= numOfFiles){
+                    audio = new File(listOfFiles[currentAudio].getPath());
+                    audioStream = AudioSystem.getAudioInputStream(audio);
+                    clip.open(audioStream);
+                    clip.start();
+                }
                 break;
                 case "p":
                 if(isPaused){
@@ -48,7 +55,7 @@ public class Player{
                 break;
                 case "r":
                 clip.stop();
-                clip.setFramePosition(0);
+                clip.setFramePosition(0);   
                 clip.start();
                 break;
                 case "q":
@@ -58,6 +65,6 @@ public class Player{
                 default:
                 System.out.println("Invalid Input");
             }
-        }
+        }while(!controls.equals("q"));
     }
 }
